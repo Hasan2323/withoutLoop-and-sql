@@ -1,4 +1,14 @@
 
+## different not equal
+select * from employees where City != 'Chittagong';
+select * from employees where not City = 'Chittagong';
+
+## null value check
+select * from employees where age is null;
+select * from employees where age is not null;
+
+
+
 #DISTINCT
 select distinct City from employees;
 
@@ -6,6 +16,8 @@ select distinct City from employees;
 select count(*) as total_employee from employees;
 select count(City) from employees;
 select count(distinct City) from employees;
+select count(*) from employees where age = 28;
+select count(*) from employees where salary > 50000;
 
 #BETWEEN
 select * from employees where salary between 40000 and 80000;
@@ -58,6 +70,7 @@ select concat((select FirstName from employees where salary = (select max(salary
 #LIKE
 # here capital and small letter doesn't matter.
 select LastName from employees where LastName like 's%'; #employees whose LastName starts with 's'
+select LastName from employees where LastName not like 's%'; #employees whose LastName doesn't start with 's'
 
 select LastName from employees where LastName like '%n'; #employees whose LastName ends with 'n'
 select LastName from employees where LastName like 'S%n'; #starts with s and ends with n
@@ -69,6 +82,8 @@ select LastName from employees where LastName like '%a_'; #employees whose LastN
 
 select FirstName from employees where left(FirstName,1) in ('s','t','y'); #LEFT(FirstName,1) is the 1st letter of the FirstName)
 select FirstName from employees where left(FirstName,2) in ('sa','ta','yo'); #LEFT(FirstName,2) is the 1st 2 letter of the FirstName)
+
+
 
 #Join
 select employees.ID, employees.FirstName, orders.order_name, orders.Amount
@@ -89,7 +104,7 @@ select em.ID, em.FirstName, ord.order_name, ord.Amount
     #where ord.order_name = 'laptop'
     order by em.ID;
 
-### LEFT JOIN
+#### LEFT JOIN
 select em.ID, em.FirstName, ord.order_name, ord.Amount
     from employees as em left outer join orders as ord
     on em.ID = ord.employee_id;
@@ -110,3 +125,7 @@ create view senior_dev as
 
 create or replace view senior_dev as
     select FirstName,salary,City from employees where salary >= 40000;
+
+
+################## W3schools
+
