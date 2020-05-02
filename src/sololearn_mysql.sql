@@ -7,7 +7,8 @@ select * from employees where not City = 'Chittagong';
 select * from employees where age is null;
 select * from employees where age is not null;
 
-
+# TRUNCATE - delete all data inside a table
+TRUNCATE TABLE tableName;
 
 #DISTINCT
 select distinct City from employees;
@@ -18,9 +19,16 @@ select count(City) from employees;
 select count(distinct City) from employees;
 select count(*) from employees where age = 28;
 select count(*) from employees where salary > 50000;
+select count(employees.ID),employees.City from employees GROUP BY employees.City; #List the number of employees in each City.
+
+#List the number of employees in each City and order by city with the most customers First.
+select count(employees.ID),employees.City from employees GROUP BY employees.City ORDER BY count(employees.ID) desc;
 
 #BETWEEN
 select * from employees where salary between 40000 and 80000;
+
+#NOT BETWEEN
+select * from employees where salary not between 40000 and 80000;
 
 #Limit
 select * from employees limit 5; #show me 5 from start
@@ -29,6 +37,10 @@ select * from employees limit 5,3; #starts from 5th position and show me total 3
 # IN
 select * from employees where City in ('Chittagong', 'Dhaka'); #both show same results
 select * from employees where City='Chittagong' or City='Dhaka'; #both show same results
+
+# NOT IN
+select * from employees where City NOT in ('Chittagong', 'Dhaka'); #both show same results
+select * from employees where City!='Chittagong' and City!='Dhaka'; #both show same results
 
 #AS (for creating custom column), + operator
 select FirstName,age+(100-age) as Age from employees;
@@ -83,6 +95,9 @@ select LastName from employees where LastName like '%a_'; #employees whose LastN
 select FirstName from employees where left(FirstName,1) in ('s','t','y'); #LEFT(FirstName,1) is the 1st letter of the FirstName)
 select FirstName from employees where left(FirstName,2) in ('sa','ta','yo'); #LEFT(FirstName,2) is the 1st 2 letter of the FirstName)
 
+select * from employees where FirstName like '[^smt]%'; #select all where First letter of FirstName is NOT 's' or 'm' or 't' and THIS WON'T WORK ON MySQL
+select * from employees where FirstName like '[a-n]%'; #select all where First letter of FirstName starts with anything from 'a' to 'n' and THIS WON'T WORK ON MySQL
+select * from employees where FirstName like '[smt]%'; #select all where First letter of FirstName is 's' or 'm' or 't' and THIS WON'T WORK ON MySQL
 
 
 #Join
@@ -113,6 +128,7 @@ select em.ID, em.FirstName, ord.order_name, ord.Amount
 select em.ID, em.FirstName, ord.order_name, ord.Amount
     from employees as em right outer join orders as ord
     on em.ID = ord.employee_id;
+
 
 ## UNION
 select em.FirstName, em.LastName, em.salary from employees as em
